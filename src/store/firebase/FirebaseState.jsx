@@ -104,8 +104,8 @@ class FirebaseState extends Component {
 		return ref(storage, name);
 	}
 
-	uploadFile(storageRef, file, getURL) {
-		uploadBytes(storageRef, file).then((snapshot) => {
+	async uploadFile(storageRef, file, getURL) {
+		await uploadBytes(storageRef, file).then((snapshot) => {
 			console.log("Uploaded a blob or file!");
 			getURL();
 		});

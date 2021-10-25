@@ -9,15 +9,13 @@ import Loader from "./Loader";
 class Modal extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { category: "", title: "", desc: "", price: "", img: "" };
+		this.state = { category: "", title: "", desc: "", price: "", img: "", ref: "", targetFile: {} };
 	}
 
-	componentDidUpdate() {
-
-	}
+	componentDidUpdate() {}
 
 	render() {
-		const { category, title, desc, price, img } = this.state;
+		const { category, title, desc, price, img, ref, targetFile } = this.state;
 		const { show, hideModal, loading, showLoader, hideLoader } = this.props;
 
 		return (
@@ -40,7 +38,6 @@ class Modal extends Component {
 								<Loader />
 							) : (
 								<>
-									
 									<div class="myModal__info">
 										<select
 											class="form-select"
@@ -105,13 +102,9 @@ class Modal extends Component {
 											id="formFile"
 											onChange={(e) => {
 												const ref = this.context.setRef(`img/${e.target.files[0].name}`);
-												this.context.uploadFile(ref, e.target.files[0], () => {
-													const src = this.context.getURL(e.target.files[0].name);
-
-													
-													src.then((res) => {
-														this.setState({ img: res });
-													});
+												this.setState({
+													ref: ref,
+													targetFile: e.target.files[0],
 												});
 											}}
 										/>
@@ -119,22 +112,38 @@ class Modal extends Component {
 											type="button"
 											class="btn btn-primary"
 											onClick={() => {
-												// Здесь нужно передать action в Reducer
-												showLoader()
-												const addResult = this.context.addCard(category, title, desc, price, img);
-												addResult.then(() => {
-													hideLoader();
-													hideModal()
-													this.setState({
-														category: '', title: '', desc: '', price: '', img: ''
-													})
-													
-													setTimeout(() => {
-														alert("Карточка была успешно добавлена")
-													}, 100);
-													
-												})
-												
+												showLoader();
+
+												this.context.uploadFile(ref, targetFile, () => {
+													const src = this.context.getURL(targetFile.name);
+													console.log(src);
+													console.log("Ссылка получена, идем дальше");
+													src.then((res) => {
+														this.setState({ img: res });
+														console.log("Мы обновлили state");
+
+														const addResult = this.context.addCard(category, title, desc, price, res);
+														addResult
+															.then(() => {
+																console.log("Добавляем карточку");
+															})
+															.then(() => {
+																this.setState({
+																	category: "",
+																	title: "",
+																	desc: "",
+																	price: "",
+																	img: "",
+																});
+
+																hideLoader();
+																hideModal();
+																setTimeout(() => {
+																	alert("Карточка была успешно добавлена");
+																}, 1000);
+															});
+													});
+												});
 											}}
 										>
 											Добавить карточку
@@ -156,7 +165,7 @@ const mapStateToProps = (state) => {
 	return {
 		show: state.show,
 		loading: state.loading,
-		cards: state.cards
+		cards: state.cards,
 	};
 };
 
