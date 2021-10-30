@@ -10,7 +10,6 @@ class Card extends Component {
 	}
 
 	componentDidUpdate() {
-		console.log(this.props.basket)
 	}
 
 	render() {
@@ -29,12 +28,14 @@ class Card extends Component {
 							
 							// Добавление товара в корзину
 							this.props.addOrder(this.props.card);
+							alert("Товар добавлен в корзину")
 						}}
 					>
 						<img src="/img/plus-solid.svg" width="11px" height="11x" />
 					</div>
 				</div>
 				<div className="mycard__title">{this.props.card.title}</div>
+				<div className="mycard__price mybasket__item--price">{this.props.card.price}<span>₽</span></div>
 			</div>
 		);
 	}

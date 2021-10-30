@@ -34,7 +34,7 @@ class Menu extends Component {
 	
 
 	componentDidUpdate() {
-		console.log(this.props)
+		console.log(this.props.basket)
 	}
 
 	render() {
@@ -91,7 +91,8 @@ class Menu extends Component {
 const mapStateToProps = (state) => {
 	return {
 		loading: state.loading,
-		currentTab: state.currentTab
+		currentTab: state.currentTab,
+		basket: state.basket
 	};
 };
 
