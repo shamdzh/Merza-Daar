@@ -17,9 +17,18 @@ body {
 	font-family: "Roboto", sans-serif;
 }
 
+@media screen and (max-width: 1200px){ html,body {min-width:1180px} }
+
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+
+.mycontainer {
+	width: 1140px;
+	margin: 0 auto;
+}
+
 
 .navbar,
 .navbar a {
@@ -174,7 +183,7 @@ code {
 	
 
 	&__inner {
-		width: 1116px;
+		width: 100%;
 		height: 420px;
 		border-radius: 8px;
 		display: flex;

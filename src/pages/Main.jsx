@@ -23,7 +23,7 @@ class Main extends Component {
 			<>
 				<Modal />
 
-				<div className="container">
+				<div className="mycontainer">
 					<Navbar />
 					<Wrapper />
 					<Menu />
